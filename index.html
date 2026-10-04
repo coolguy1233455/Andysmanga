@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Andysmanga</title>
-    <meta name="description" content="A minimalist bookshelf for JJK manga volumes." />
+    <meta name="description" content="Minimal bookshelf manga library" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,27 +15,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
       pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
     </script>
   </head>
   <body>
     <div class="page-shell">
       <header class="topbar">
-        <div>
+        <div class="brand">
           <p class="eyebrow">Library</p>
           <h1>Andysmanga</h1>
         </div>
-        <div class="title-meta">JJK manga</div>
       </header>
 
-      <main class="shelf-wrap">
-        <section class="bookshelf" aria-labelledby="shelf-title">
-          <div class="shelf-header">
-            <h2 id="shelf-title">Jujutsu Kaisen</h2>
-          </div>
-          <div class="book-row" id="jjk-grid"></div>
-        </section>
-      </main>
+      <main id="shelfContainer" class="shelf-container"></main>
     </div>
 
     <div class="reader-backdrop" id="readerModal" aria-hidden="true">
@@ -43,7 +35,7 @@
         <header class="reader-header">
           <div>
             <p class="reader-kicker">Reader</p>
-            <h3 id="readerTitle">Volume</h3>
+            <h2 id="readerTitle">Volume</h2>
           </div>
           <button class="close-btn" id="closeReader" aria-label="Close reader">×</button>
         </header>
