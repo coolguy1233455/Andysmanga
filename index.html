@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Andysmanga | Manga Vault</title>
-    <meta name="description" content="A simple manga reading hub." />
+    <title>Andysmanga</title>
+    <meta name="description" content="A minimalist bookshelf for JJK manga volumes." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -19,30 +19,39 @@
     </script>
   </head>
   <body>
-    <header class="header">
-      <div class="header-content">
-        <h1 class="site-title">Andysmanga</h1>
-      </div>
-    </header>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Library</p>
+          <h1>Andysmanga</h1>
+        </div>
+        <div class="title-meta">JJK manga</div>
+      </header>
 
-    <main class="main-content">
-      <section class="shelf-section">
-        <h2 class="shelf-title">Jujutsu Kaisen</h2>
-        <div class="book-grid" id="jjk-grid"></div>
-      </section>
-    </main>
+      <main class="shelf-wrap">
+        <section class="bookshelf" aria-labelledby="shelf-title">
+          <div class="shelf-header">
+            <h2 id="shelf-title">Jujutsu Kaisen</h2>
+          </div>
+          <div class="book-row" id="jjk-grid"></div>
+        </section>
+      </main>
+    </div>
 
     <div class="reader-backdrop" id="readerModal" aria-hidden="true">
       <div class="reader-panel" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
         <header class="reader-header">
-          <h2 id="readerTitle">Manga</h2>
-          <button class="close-btn" id="closeReader" aria-label="Close reader">✕</button>
+          <div>
+            <p class="reader-kicker">Reader</p>
+            <h3 id="readerTitle">Volume</h3>
+          </div>
+          <button class="close-btn" id="closeReader" aria-label="Close reader">×</button>
         </header>
 
         <div class="reader-toolbar">
-          <button class="page-btn" id="prevPage" aria-label="Previous pages">← Prev</button>
-          <span class="page-counter" id="readerProgress">1 / 1</span>
-          <button class="page-btn" id="nextPage" aria-label="Next pages">Next →</button>
+          <button class="page-btn" id="prevPage">← Prev</button>
+          <span id="readerProgress" class="reader-progress">1 / 1</span>
+          <button class="page-btn" id="nextPage">Next →</button>
         </div>
 
         <div class="reader-stage">
