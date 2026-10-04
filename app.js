@@ -1,94 +1,12 @@
-const shelfData = [
-  {
-    title: 'Latest drops',
-    items: [
-      {
-        title: 'Night Reign',
-        label: 'Action',
-        note: 'Vol. 02 · Updated today',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/tracemonkey.pdf'
-      },
-      {
-        title: 'Fading Echoes',
-        label: 'Drama',
-        note: 'Vol. 09 · 3 chapters',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/helloworld.pdf'
-      },
-      {
-        title: 'Scars in Bloom',
-        label: 'Romance',
-        note: 'Vol. 06 · New pages',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/asm.pdf'
-      },
-      {
-        title: 'Orbit Zero',
-        label: 'Sci-Fi',
-        note: 'Vol. 11 · Final arc',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/cmap.pdf'
-      }
-    ]
-  },
-  {
-    title: 'Completed reads',
-    items: [
-      {
-        title: 'Glass Harbor',
-        label: 'Mystery',
-        note: 'Vol. 14 · Finished',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/helloworld.pdf'
-      },
-      {
-        title: 'Shiver City',
-        label: 'Fantasy',
-        note: 'Vol. 07 · Completed',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/tracemonkey.pdf'
-      },
-      {
-        title: 'Sunlit Echo',
-        label: 'Slice of life',
-        note: 'Vol. 03 · Standalone',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/asm.pdf'
-      },
-      {
-        title: 'Velvet Run',
-        label: 'Sports',
-        note: 'Vol. 18 · Binge ready',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/cmap.pdf'
-      }
-    ]
-  },
-  {
-    title: 'New this week',
-    items: [
-      {
-        title: 'Crimson Hollow',
-        label: 'Action',
-        note: 'Vol. 01 · Fresh upload',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/tracemonkey.pdf'
-      },
-      {
-        title: 'Luna Thread',
-        label: 'Fantasy',
-        note: 'Vol. 08 · 2 chapters',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/heloworld.pdf'
-      },
-      {
-        title: 'Afterglow Ink',
-        label: 'Shojo',
-        note: 'Vol. 05 · Readers favorite',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/asm.pdf'
-      },
-      {
-        title: 'Zero Hour',
-        label: 'Thriller',
-        note: 'Vol. 10 · Read now',
-        url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/cmap.pdf'
-      }
-    ]
-  }
-];
+const shelfData = {
+  'Jujutsu Kaisen': [
+    {
+      title: 'jjk manga',
+      url: 'https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/tracemonkey.pdf'
+    }
+  ]
+};
 
-const catalog = document.getElementById('catalog');
 const readerModal = document.getElementById('readerModal');
 const readerTitle = document.getElementById('readerTitle');
 const readerPages = document.getElementById('readerPages');
@@ -101,33 +19,23 @@ let currentPdf = null;
 let currentPage = 1;
 let currentPdfUrl = '';
 
-function buildCatalog() {
-  shelfData.forEach((shelf) => {
-    const section = document.createElement('section');
-    section.className = 'shelf';
+function buildShelves() {
+  for (const [shelfName, items] of Object.entries(shelfData)) {
+    const gridId = shelfName.toLowerCase().replace(/\s+/g, '-') + '-grid';
+    const grid = document.getElementById(gridId);
 
-    const header = document.createElement('div');
-    header.className = 'shelf-header';
-    header.innerHTML = `<h3>${shelf.title}</h3>`;
+    if (!grid) continue;
 
-    const grid = document.createElement('div');
-    grid.className = 'book-grid';
-
-    shelf.items.forEach((item) => {
+    items.forEach((item) => {
       const button = document.createElement('button');
-      button.type = 'button';
       button.className = 'book-card';
-      button.setAttribute('data-pdf-url', item.url);
+      button.type = 'button';
       button.setAttribute('aria-label', `Open ${item.title}`);
 
       button.innerHTML = `
         <div class="book-cover" data-pdf-url="${item.url}"></div>
-        <div class="book-meta">
-          <div class="book-meta-header">
-            <h4>${item.title}</h4>
-            <span class="book-tags">${item.label}</span>
-          </div>
-          <p class="book-subtext">${item.note}</p>
+        <div class="book-info">
+          <div class="book-title">${item.title}</div>
         </div>
       `;
 
@@ -135,20 +43,19 @@ function buildCatalog() {
       grid.appendChild(button);
     });
 
-    section.appendChild(header);
-    section.appendChild(grid);
-    catalog.appendChild(section);
-  });
-
-  renderCovers();
+    renderCoversForShelf(gridId);
+  }
 }
 
-function renderCovers() {
-  document.querySelectorAll('.book-cover').forEach((cover) => {
+function renderCoversForShelf(gridId) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+
+  grid.querySelectorAll('.book-cover').forEach((cover) => {
     const pdfUrl = cover.dataset.pdfUrl;
     const canvas = document.createElement('canvas');
     cover.appendChild(canvas);
-    renderPageToCanvas(pdfUrl, 1, canvas, 0.22);
+    renderPageToCanvas(pdfUrl, 1, canvas, 0.25);
   });
 }
 
@@ -167,7 +74,7 @@ function openReader(pdfUrl, title) {
     })
     .catch((error) => {
       console.error('Could not load PDF:', error);
-      readerPages.innerHTML = '<p class="book-subtext">This PDF could not be opened.</p>';
+      readerPages.innerHTML = '<p>This PDF could not be opened.</p>';
       progressLabel.textContent = 'Error';
     });
 }
@@ -181,14 +88,14 @@ function renderReader() {
 
   readerPages.innerHTML = '';
 
-  for (let pageNumber = start; pageNumber <= end; pageNumber += 1) {
+  for (let pageNumber = start; pageNumber <= end; pageNumber++) {
     const canvas = document.createElement('canvas');
     canvas.className = 'reader-page';
-    renderPageToCanvas(currentPdfUrl, pageNumber, canvas, 0.9);
+    renderPageToCanvas(currentPdfUrl, pageNumber, canvas, 0.85);
     readerPages.appendChild(canvas);
   }
 
-  progressLabel.textContent = `${start} - ${end} / ${totalPages}`;
+  progressLabel.textContent = `${start}${end > start ? ` - ${end}` : ''} / ${totalPages}`;
 }
 
 function goToPage(direction) {
@@ -207,24 +114,26 @@ function renderPageToCanvas(pdfUrl, pageNumber, canvas, scaleMultiplier) {
 
   const loadingTask = pdfjsLib.getDocument(pdfUrl);
 
-  loadingTask.promise.then((pdf) => {
-    pdf.getPage(pageNumber).then((page) => {
-      const viewport = page.getViewport({ scale: 1.25 * scaleMultiplier });
-      const context = canvas.getContext('2d');
+  loadingTask.promise
+    .then((pdf) => {
+      pdf.getPage(pageNumber).then((page) => {
+        const viewport = page.getViewport({ scale: 1.5 * scaleMultiplier });
+        const context = canvas.getContext('2d');
 
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
 
-      page.render({
-        canvasContext: context,
-        viewport
-      }).promise.catch((error) => {
-        console.warn('Page render issue:', error);
+        page.render({
+          canvasContext: context,
+          viewport
+        }).promise.catch((error) => {
+          console.warn('Page render issue:', error);
+        });
       });
+    })
+    .catch((error) => {
+      console.warn('Could not fetch PDF for preview:', error);
     });
-  }).catch((error) => {
-    console.warn('Could not fetch PDF for preview:', error);
-  });
 }
 
 closeReader.addEventListener('click', () => {
@@ -244,9 +153,4 @@ readerModal.addEventListener('click', (event) => {
   }
 });
 
-document.querySelector('.primary-btn').addEventListener('click', () => {
-  const url = document.querySelector('.primary-btn').dataset.openBook;
-  openReader(url, 'Night Reign');
-});
-
-buildCatalog();
+buildShelves();
