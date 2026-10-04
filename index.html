@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Andysmanga | Manga Vault</title>
-    <meta
-      name="description"
-      content="A manga hub with sectioned shelves and a two-page reader."
-    />
+    <meta name="description" content="A simple manga reading hub." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,88 +19,30 @@
     </script>
   </head>
   <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div class="brand-wrap">
-          <div class="brand-mark">A</div>
-          <div>
-            <p class="brand-name">Andysmanga</p>
-            <p class="brand-tag">A vault of manga uploads</p>
-          </div>
-        </div>
+    <header class="header">
+      <div class="header-content">
+        <h1 class="site-title">Andysmanga</h1>
+      </div>
+    </header>
 
-        <nav class="topnav" aria-label="Main navigation">
-          <a href="#featured">Featured</a>
-          <a href="#series">Series</a>
-          <a href="#new">New drops</a>
-          <a href="#library">Library</a>
-        </nav>
-
-        <button class="ghost-btn">Upload</button>
-      </header>
-
-      <main>
-        <section class="hero" id="featured">
-          <div class="hero-copy">
-            <p class="eyebrow">Curated manga collection</p>
-            <h1>Read your favorite series in one clean, cinematic hub.</h1>
-            <p class="subtext">
-              Browse every upload by shelf, open a volume in a paged reader,
-              and flip through each chapter with a clean two-page spread.
-            </p>
-            <div class="hero-actions">
-              <button class="primary-btn" data-open-book="https://raw.githubusercontent.com/mozilla/pdf.js/master/test/pdfs/tracemonkey.pdf">
-                Read now
-              </button>
-              <button class="secondary-btn">Browse shelves</button>
-            </div>
-          </div>
-
-          <div class="hero-card">
-            <div class="hero-cover" aria-label="Featured manga cover">
-              <div class="cover-glow"></div>
-              <div class="cover-art">
-                <span>Night</span>
-                <span>Reign</span>
-              </div>
-            </div>
-            <div class="hero-meta">
-              <div>
-                <p class="meta-label">Featured</p>
-                <h2>Night Reign</h2>
-              </div>
-              <span class="status-pill">Updated today</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="shelves" id="series">
-          <div class="section-header">
-            <div>
-              <p class="eyebrow">Browse shelves</p>
-              <h2>Latest Series</h2>
-            </div>
-            <a href="#library" class="text-link">View all</a>
-          </div>
-          <div id="catalog"></div>
-        </section>
-      </main>
-    </div>
+    <main class="main-content">
+      <section class="shelf-section">
+        <h2 class="shelf-title">Jujutsu Kaisen</h2>
+        <div class="book-grid" id="jjk-grid"></div>
+      </section>
+    </main>
 
     <div class="reader-backdrop" id="readerModal" aria-hidden="true">
       <div class="reader-panel" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
         <header class="reader-header">
-          <div>
-            <p class="reader-kicker">Reader</p>
-            <h3 id="readerTitle">Series</h3>
-          </div>
-          <button class="close-reader" id="closeReader" aria-label="Close reader">×</button>
+          <h2 id="readerTitle">Manga</h2>
+          <button class="close-btn" id="closeReader" aria-label="Close reader">✕</button>
         </header>
 
         <div class="reader-toolbar">
-          <button class="nav-btn" id="prevPage" aria-label="Previous page">←</button>
-          <div class="reader-progress" id="readerProgress">1 / 1</div>
-          <button class="nav-btn" id="nextPage" aria-label="Next page">→</button>
+          <button class="page-btn" id="prevPage" aria-label="Previous pages">← Prev</button>
+          <span class="page-counter" id="readerProgress">1 / 1</span>
+          <button class="page-btn" id="nextPage" aria-label="Next pages">Next →</button>
         </div>
 
         <div class="reader-stage">
